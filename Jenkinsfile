@@ -86,9 +86,9 @@ environment {
             }
         }
         stage(" Deploy ") {
-        steps {
-            script {
-            sh 'chmod +x ./deploy.sh'
+            steps {
+                script {
+                sh 'chmod +x ./deploy.sh'
                 sh './deploy.sh'
             }
         }
