@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-north-1"
 }
 data "aws_vpc" "default" {
   default = true
@@ -14,85 +14,85 @@ data "aws_subnets" "default" {
 }
 
 resource "aws_instance" "ansible" {
-    ami                     = "ami-0c398cb65a93047f2"
-    instance_type           = "t2.micro"
-    key_name                = "taxi"
-    vpc_security_group_ids  = [aws_security_group.demo-sg.id]
-    //subnet_id               = "subnet-077471d3c705ea769"
-    tags                    = {
-        Name      = "ansible"
-    }
+  ami                    = "ami-01fd6fa49060e89a6"
+  instance_type          = "t3.micro"
+  key_name               = "taxi"
+  vpc_security_group_ids = [aws_security_group.demo-sg2.id]
+  //subnet_id               = "subnet-077471d3c705ea769"
+  tags = {
+    Name = "ansible"
+  }
 }
-    
+
 
 
 resource "aws_instance" "jenkins_master" {
-  ami                        = "ami-0c398cb65a93047f2"
-  instance_type              = "t2.medium"
-  key_name                   = "taxi"
-  vpc_security_group_ids     = [aws_security_group.demo-sg.id]
-  
-  tags                       = {
+  ami                    = "ami-01fd6fa49060e89a6"
+  instance_type          = "c7i-flex.large"
+  key_name               = "taxi"
+  vpc_security_group_ids = [aws_security_group.demo-sg2.id]
+
+  tags = {
     Name = "jenkins-master"
   }
-  
+
 
 }
 
 resource "aws_instance" "jenkins_slave" {
-  ami                        = "ami-0c398cb65a93047f2"
-  instance_type              = "t2.medium"
-  key_name                   = "taxi"
-  vpc_security_group_ids     = [aws_security_group.demo-sg.id]
-  
-  tags                       = {
+  ami                    = "ami-01fd6fa49060e89a6"
+  instance_type          = "c7i-flex.large"
+  key_name               = "taxi"
+  vpc_security_group_ids = [aws_security_group.demo-sg2.id]
+
+  tags = {
     Name = "jenkins-slave"
   }
-  
+
 }
 
 
-resource "aws_security_group" "demo-sg" {
-  name        = "demo-sg"
+resource "aws_security_group" "demo-sg2" {
+  name        = "demo-sg2"
   description = "SSH Access"
 
-  
-  ingress {
-    description      = "SHH access"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
 
-    ingress {
-    description      = "Jenkins port"
-    from_port        = 8080
-    to_port          = 8080
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
-    ingress {
-    description      = "Container  port"
-    from_port        = 8000
-    to_port          = 8000
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
-    ingress {
-    description      = "https  port"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
-    ingress {
-    description      = "http  port"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
+  ingress {
+    description = "SHH access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Jenkins port"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Container  port"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "https  port"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "http  port"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port        = 0
     to_port          = 0
